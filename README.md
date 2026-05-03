@@ -1,5 +1,7 @@
 # 🤖 6-DOF Programmable Robotic Arm (ESP32 + WiFi Control)
 
+🚀 Built in 5 days during an intensive robotics internship, focusing on real hardware debugging and system integration
+
 A browser-controlled robotic arm built using **ESP32, PCA9685 PWM driver, and 6 servo motors**, designed for precise calibration and repeatable pick-and-place operations.
 
 ---
@@ -58,13 +60,39 @@ Robotic Arm Movement
 
 ---
 
+## 📸 System Demonstration
+
+### 🔧 Final Hardware Setup
+
+![Final Setup](assets/final_setup.png)
+
+---
+
+### 🤖 Robotic Arm Assembly
+
+![Arm](assets/arm_setup.png)
+
+---
+
+### 🌐 WiFi Control Interface
+
+![UI](assets/ui_interface.png)
+
+---
+
+### 🧠 Block Diagram
+
+![Architecture](assets/block_diagram.png)
+
+---
+
 ## 🔄 How It Works
 
 1. ESP32 boots and initializes PCA9685 (50Hz PWM)
 2. ESP32 creates a WiFi hotspot
-3. User connects and opens browser (192.168.4.1)
+3. User connects and opens browser at `192.168.4.1`
 4. Sliders control each servo in real time
-5. Angles are recorded for each position:
+5. Angles are recorded for positions:
 
    * HOME, APPROACH, GRIP, LIFT, DROP
 6. Values are stored in code
@@ -72,18 +100,15 @@ Robotic Arm Movement
 
 ---
 
-## 🖥️ Control Interface
+## ▶️ How to Run
 
-The system uses a **browser-based UI hosted on ESP32**:
-
-* No internet required
-* No app installation
-* Real-time control via sliders
-* Displays live servo angles
-
-📸 Example:
-
-![UI](assets/ui_interface.png)
+1. Upload code to ESP32 using Arduino IDE
+2. Connect PCA9685 via I2C (SDA → GPIO21, SCL → GPIO22)
+3. Power servos using external 5V supply
+4. Connect to ESP32 WiFi hotspot
+5. Open browser at `192.168.4.1`
+6. Calibrate servo angles using UI
+7. Upload final sequence code for execution
 
 ---
 
@@ -126,6 +151,14 @@ The system uses a **browser-based UI hosted on ESP32**:
 * **ESP32 crashes** → moved UI to PROGMEM
 * **I2C instability** → fixed with common ground
 * **Voltage drop** → used dedicated 5V power supply
+
+---
+
+## ⚠️ Limitations
+
+* No feedback sensors (open-loop control system)
+* Requires manual calibration for each setup
+* Accuracy depends on servo precision and mechanical alignment
 
 ---
 
