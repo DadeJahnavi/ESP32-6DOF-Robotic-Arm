@@ -1,6 +1,6 @@
 # 🤖 6-DOF Programmable Robotic Arm (ESP32 + WiFi Control)
 
-🚀 Built in 5 days during an intensive robotics internship, focusing on real hardware debugging and system integration
+🚀 Calibration-driven robotic system built in 5 days during an intensive robotics internship, focused on real hardware debugging and system integration
 
 A browser-controlled robotic arm built using **ESP32, PCA9685 PWM driver, and 6 servo motors**, designed for precise calibration and repeatable pick-and-place operations.
 
@@ -9,9 +9,9 @@ A browser-controlled robotic arm built using **ESP32, PCA9685 PWM driver, and 6 
 ## ⚡ What This System Does
 
 * Controls a **6-DOF robotic arm** in real time via WiFi
-* Allows **joint-by-joint calibration using a browser interface**
+* Enables **joint-by-joint calibration through a browser interface**
 * Executes a **repeatable pick-and-place sequence after calibration**
-* Operates **without continuous user input once calibrated**
+* Operates **independently once calibrated (no continuous input required)**
 
 ---
 
@@ -21,22 +21,26 @@ Manual pick-and-place operations are:
 
 * Slow and repetitive
 * Prone to human error
-* Not scalable in industrial environments
+* Difficult to scale in low-cost setups
 
-This project demonstrates a **low-cost programmable robotic arm** that automates such operations using embedded control and calibration logic.
+This project addresses these limitations by designing a **low-cost embedded robotic system** with a **calibration-based execution pipeline**, eliminating the need for complex programming or continuous control.
 
 ---
 
 ## 🚀 Overview
 
-The system consists of:
+The system integrates:
 
 * **ESP32 microcontroller** → control + WiFi hosting
-* **PCA9685 PWM driver** → multi-servo control
+* **PCA9685 PWM driver** → efficient multi-servo control via I2C
 * **6 servo motors** → 6 degrees of freedom
-* **Web-based UI** → real-time calibration
+* **Web-based UI** → real-time calibration interface
 
-A key feature is the **WiFi-based control interface**, which allows tuning servo angles without repeatedly flashing firmware.
+Instead of real-time manual control, the system follows a:
+
+👉 **Calibration → Angle Storage → Automated Execution**
+
+pipeline, enabling consistent and repeatable motion.
 
 ---
 
@@ -88,27 +92,30 @@ Robotic Arm Movement
 
 ## 🔄 How It Works
 
-1. ESP32 boots and initializes PCA9685 (50Hz PWM)
-2. ESP32 creates a WiFi hotspot
-3. User connects and opens browser at `192.168.4.1`
-4. Sliders control each servo in real time
-5. Angles are recorded for positions:
+1. ESP32 initializes PCA9685 (50Hz PWM for servo control)
+2. Creates a WiFi hotspot for local control
+3. User accesses UI via browser (`192.168.4.1`)
+4. Sliders adjust servo angles in real time
+5. Key positions are calibrated:
 
-   * HOME, APPROACH, GRIP, LIFT, DROP
-6. Values are stored in code
-7. Arm executes a repeatable pick-and-place sequence
+   * HOME → APPROACH → GRIP → LIFT → DROP
+6. Angles are stored in firmware
+7. System executes the sequence autonomously
 
 ---
 
 ## ▶️ How to Run
 
-1. Upload code to ESP32 using Arduino IDE
-2. Connect PCA9685 via I2C (SDA → GPIO21, SCL → GPIO22)
-3. Power servos using external 5V supply
+1. Upload firmware to ESP32 (Arduino IDE)
+2. Connect PCA9685 via I2C
+
+   * SDA → GPIO21
+   * SCL → GPIO22
+3. Provide external 5V supply to servos
 4. Connect to ESP32 WiFi hotspot
-5. Open browser at `192.168.4.1`
-6. Calibrate servo angles using UI
-7. Upload final sequence code for execution
+5. Open `192.168.4.1` in browser
+6. Calibrate joints using sliders
+7. Upload final sequence for execution
 
 ---
 
@@ -120,44 +127,44 @@ Robotic Arm Movement
 
   * MG996R × 3 (high torque)
   * MG90S × 3 (medium torque)
-* 5V external power supply (3–4A)
-* 3D-printed robotic arm frame
+* External 5V power supply (3–4A)
+* 3D-printed robotic arm structure
 
 ---
 
 ## 🔑 Key Features
 
-* Real-time servo calibration via WiFi
-* Multi-servo control using I2C PWM expansion
-* Independent power and control circuits
-* Repeatable motion execution
-* Modular and scalable architecture
+* Calibration-driven control (no continuous manual input)
+* Multi-servo control via I2C PWM expansion
+* Separation of control logic and power supply
+* Repeatable motion execution pipeline
+* Modular and extensible system design
 
 ---
 
 ## 🧪 Results
 
-* Successful execution of full pick-and-place sequence
-* Stable operation across multiple cycles
-* Accurate positioning after calibration
+* Successful execution of complete pick-and-place sequence
+* Stable behavior across repeated runs
+* Consistent positioning after calibration
 * Reliable WiFi-based control interface
 
 ---
 
 ## ⚠️ Challenges & Solutions
 
-* **Servo jitter** → solved using delay tuning
-* **Dead PWM channels** → remapped channels
-* **ESP32 crashes** → moved UI to PROGMEM
-* **I2C instability** → fixed with common ground
-* **Voltage drop** → used dedicated 5V power supply
+* **Servo jitter** → optimized delays and motion sequencing
+* **Dead PWM channels** → channel remapping
+* **ESP32 crashes** → moved UI to PROGMEM to reduce memory usage
+* **I2C instability** → corrected grounding and wiring
+* **Voltage drops** → used dedicated external power supply
 
 ---
 
 ## ⚠️ Limitations
 
-* No feedback sensors (open-loop control system)
-* Requires manual calibration for each setup
+* Open-loop system (no feedback sensors)
+* Requires manual calibration per setup
 * Accuracy depends on servo precision and mechanical alignment
 
 ---
@@ -173,19 +180,19 @@ assets/      → images and diagrams
 
 ## 🔮 Future Improvements
 
-* Add vision-based object detection
-* Implement dynamic path planning
-* Replace manual calibration with inverse kinematics
-* Add feedback sensors (force / position)
+* Integrate vision-based object detection
+* Implement inverse kinematics for dynamic control
+* Add feedback sensors (force/position)
+* Enable adaptive path planning
 
 ---
 
 ## 📌 Note
 
-This project was built as part of an **internship in Intelligent Robotics & AI Integration**, focusing on practical embedded system design and real-world debugging.
+Built as part of an internship in **Intelligent Robotics & AI Integration**, with emphasis on practical embedded systems and real-world debugging.
 
 ---
 
 ## 🙌 Acknowledgment
 
-Developed during internship training conducted by iSpark Learning Solutions, focused on robotics, automation, and embedded systems.
+Developed during internship training by iSpark Learning Solutions, focusing on robotics, automation, and embedded systems.
